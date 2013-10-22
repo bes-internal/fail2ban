@@ -56,7 +56,7 @@ protocol = [
 ["set <JAIL> dellogpath <FILE>", "removes <FILE> from the monitoring list of <JAIL>"],
 ["set <JAIL> addfailregex <REGEX>", "adds the regular expression <REGEX> which must match failures for <JAIL>"], 
 ["set <JAIL> delfailregex <INDEX>", "removes the regular expression at <INDEX> for failregex"], 
-["get <JAIL> ignorecommand", "gets ignorecommand of <JAIL>"],
+["set <JAIL> ignorecommand <VALUE>", "sets ignorecommand of <JAIL>"],
 ["set <JAIL> addignoreregex <REGEX>", "adds the regular expression <REGEX> which should match pattern to exclude for <JAIL>"],
 ["set <JAIL> delignoreregex <INDEX>", "removes the regular expression at <INDEX> for ignoreregex"], 
 ["set <JAIL> findtime <TIME>", "sets the number of seconds <TIME> for which the filter will look back for <JAIL>"], 
