@@ -65,6 +65,8 @@ class Filter(JailThread):
 		self.__findTime = 6000
 		## The ignore IP list.
 		self.__ignoreIpList = []
+		## External command
+		self.__ignoreCommand = False
 
 		self.dateDetector = DateDetector()
 		self.dateDetector.addDefaultTemplate()
@@ -210,6 +212,14 @@ class Filter(JailThread):
 	def run(self): # pragma: no cover
 		raise Exception("run() is abstract")
 
+	# Set external command, for ignoredips
+	def setIgnoreCommand(self, command):
+		self.__ignoreCommand = command
+
+	# Get external command, for ignoredips
+	def getIgnoreCommand(self):
+		 return self.__ignoreCommand
+
 	##
 	# Ban an IP - http://blogs.buanzo.com.ar/2009/04/fail2ban-patch-ban-ip-address-manually.html
 	# Arturo 'Buanzo' Busleiman <buanzo@buanzo.com.ar>
@@ -247,7 +257,10 @@ class Filter(JailThread):
 		self.__ignoreIpList.remove(ip)
 
 	def getIgnoreIP(self):
-		return self.__ignoreIpList
+		if self.__ignoreCommand is not False:
+			return self.__ignoreIpList + os.popen(self.__ignoreCommand).read().split(" ")
+		else:
+			return self.__ignoreIpList
 
 	##
 	# Check if IP address/DNS is in the ignore list.
@@ -258,6 +271,9 @@ class Filter(JailThread):
 	# @return True if IP address is in ignore list
 
 	def inIgnoreIPList(self, ip):
+		if self.__ignoreCommand is not False:
+			self.__ignoreIpList = self.__ignoreIpList + os.popen(self.__ignoreCommand).read().split(" "
+
 		for i in self.__ignoreIpList:
 			# An empty string is always false
 			if i == "":
