@@ -152,6 +152,10 @@ class Transmitter:
 			value = command[2]
 			self.__server.addIgnoreRegex(name, value)
 			return self.__server.getIgnoreRegex(name)
+		elif command[1] == "ignorecommand":
+			value = command[2]
+			self.__server.setIgnoreCommand(name, value)
+			return self.__server.getIgnoreCommand(name)
 		elif command[1] == "delignoreregex":
 			value = int(command[2])
 			self.__server.delIgnoreRegex(name, value)
@@ -237,6 +241,8 @@ class Transmitter:
 			return self.__server.getLogPath(name)
 		elif command[1] == "ignoreip":
 			return self.__server.getIgnoreIP(name)
+		elif command[1] == "ignorecommand":
+			return self.__server.getIgnoreCommand(name)
 		elif command[1] == "failregex":
 			return self.__server.getFailRegex(name)
 		elif command[1] == "ignoreregex":

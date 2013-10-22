@@ -272,7 +272,7 @@ class Filter(JailThread):
 
 	def inIgnoreIPList(self, ip):
 		if self.__ignoreCommand is not False:
-			self.__ignoreIpList = self.__ignoreIpList + os.popen(self.__ignoreCommand).read().split(" "
+			self.__ignoreIpList = self.__ignoreIpList + os.popen(self.__ignoreCommand).read().split(" ")
 
 		for i in self.__ignoreIpList:
 			# An empty string is always false
