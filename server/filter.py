@@ -30,6 +30,7 @@ from jailthread import JailThread
 from datedetector import DateDetector
 from mytime import MyTime
 from failregex import FailRegex, Regex, RegexException
+from action import Action
 
 import logging, re, os, fcntl, time, shlex, subprocess
 
@@ -303,16 +304,10 @@ class Filter(JailThread):
 				return True
 
 		if self.__ignoreCommand is not False:
-			env = os.environ
-			env['IP'] = ip
-			try:
-				logSys.debug('ignore command to test if ' + ip + ' is to be ignored')
-				p = subprocess.Popen(shlex.split(self.__ignoreCommand), env=env)
-				p.wait()
-				return p.returncode == 0
-			except OSError, e:
-				logSys.error("ignorecommand " + self.__ignoreCommand + " error " + repr(e))
-				
+			command = Action.replaceTag(self.__ignoreCommand, { 'ip': ip } )
+			logSys.debug('ignore command: ' + command)
+			return Action.executeCmd(command)
+
 		return False
 
 
