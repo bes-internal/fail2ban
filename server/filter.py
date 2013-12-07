@@ -30,8 +30,9 @@ from jailthread import JailThread
 from datedetector import DateDetector
 from mytime import MyTime
 from failregex import FailRegex, Regex, RegexException
+from action import Action
 
-import logging, re, os, fcntl, time
+import logging, re, os, fcntl, time, shlex, subprocess
 
 # Gets the instance of the logger.
 logSys = logging.getLogger("fail2ban.filter")
@@ -279,12 +280,8 @@ class Filter(JailThread):
 	# @return True if IP address is in ignore list
 
 	def inIgnoreIPList(self, ip):
-		ignoreIpList = self.__ignoreIpList
 
-		if self.__ignoreCommand is not False:
-			ignoreIpList = ignoreIpList + os.popen(self.__ignoreCommand).read().split(" ")
-
-		for i in ignoreIpList:
+		for i in self.__ignoreIpList:
 			# An empty string is always false
 			if i == "":
 				continue
@@ -305,6 +302,12 @@ class Filter(JailThread):
 					continue
 			if a == b:
 				return True
+
+		if self.__ignoreCommand is not False:
+			command = Action.replaceTag(self.__ignoreCommand, { 'ip': ip } )
+			logSys.debug('ignore command: ' + command)
+			return Action.executeCmd(command)
+
 		return False
 
 

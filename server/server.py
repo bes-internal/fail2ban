@@ -188,7 +188,7 @@ class Server:
 		self.__jails.getFilter(name).setIgnoreCommand(value)
 
 	def getIgnoreCommand(self, name):
-		self.__jails.getFilter(name).getIgnoreCommand()
+		return self.__jails.getFilter(name).getIgnoreCommand()
 
 	def addFailRegex(self, name, value):
 		self.__jails.getFilter(name).addFailRegex(value)
