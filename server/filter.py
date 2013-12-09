@@ -303,7 +303,7 @@ class Filter(JailThread):
 			if a == b:
 				return True
 
-		if self.__ignoreCommand is not False:
+		if self.__ignoreCommand:
 			command = Action.replaceTag(self.__ignoreCommand, { 'ip': ip } )
 			logSys.debug('ignore command: ' + command)
 			return Action.executeCmd(command)
