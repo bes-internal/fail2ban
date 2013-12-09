@@ -266,10 +266,7 @@ class Filter(JailThread):
 		self.__ignoreIpList.remove(ip)
 
 	def getIgnoreIP(self):
-		if self.__ignoreCommand is not False:
-			return self.__ignoreIpList + os.popen(self.__ignoreCommand).read().split(" ")
-		else:
-			return self.__ignoreIpList
+		return self.__ignoreIpList
 
 	##
 	# Check if IP address/DNS is in the ignore list.
@@ -280,7 +277,6 @@ class Filter(JailThread):
 	# @return True if IP address is in ignore list
 
 	def inIgnoreIPList(self, ip):
-
 		for i in self.__ignoreIpList:
 			# An empty string is always false
 			if i == "":
